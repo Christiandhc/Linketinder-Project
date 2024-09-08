@@ -1,0 +1,29 @@
+plugins {
+    id 'groovy'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    test {
+        groovy {
+            srcDir 'src/test/groovy'
+        }
+    }
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.19'
+    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+    testImplementation 'cglib:cglib-nodep:3.3.0'
+}
+
