@@ -1,24 +1,20 @@
 plugins {
     id 'groovy'
+    id 'application'
+}
+
+application {
+    mainClass = "Main"
 }
 
 repositories {
     mavenCentral()
 }
 
-sourceSets {
-    test {
-        groovy {
-            srcDir 'src/test/groovy'
-        }
-    }
-}
 
-test {
-    testLogging {
-        events "passed", "skipped", "failed"
-        showStandardStreams = true
-    }
+
+test{
+    useJUnitPlatform()
 }
 
 dependencies {

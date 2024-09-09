@@ -1,4 +1,4 @@
-package main
+
 
 import servico.GerenciadorDeRecrutamento
 import modelo.Competencia

@@ -17,10 +17,7 @@ class CandidatoSpec extends Specification {
         println "Novo candidato adicionado: ${novoCandidato.nome}"
 
         then: "O candidato deve ser adicionado à lista"
-        println "Lista de candidatos antes: " + listaDeCandidatos
-        listaDeCandidatos.size() == 1
-        listaDeCandidatos[0] == candidato
-        println "Lista de candidatos após adicionar: " + listaDeCandidatos
-
+        listaCandidatos.size() == 1
+        listaCandidatos[0] == novoCandidato
     }
 }
