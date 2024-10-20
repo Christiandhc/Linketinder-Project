@@ -1,14 +1,20 @@
 package modelo
 
 class Competencia {
-    String nome
+    int idCompetencia
+    String nomeCompetencia
 
-    Competencia(String nome) {
-        this.nome = nome
+    Competencia(int idCompetencia, String nomeCompetencia) {
+        this.idCompetencia = idCompetencia
+        this.nomeCompetencia = nomeCompetencia
+    }
+
+    String getNome() { // Adicione este método getter
+        return nomeCompetencia
     }
 
     @Override
     String toString() {
-        return nome
+        return nomeCompetencia
     }
 }

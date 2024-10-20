@@ -1,19 +1,29 @@
 package modelo
 
+import java.time.LocalDate
+
 class Candidato extends Pessoa {
     String cpf
-    int idade
+    String sobrenome
+    LocalDate dataNascimento // Usando LocalDate
+    String pais
+    String descricaoPessoal
+    String senha
     List<Competencia> competencias
 
-    Candidato(String nome, String email, String cpf, int idade, String estado, String cep, String descricao, List<Competencia> competencias) {
-        super(nome, email, estado, cep, descricao)
+    Candidato(String nome, String sobrenome, LocalDate dataNascimento, String email, String cpf, String pais, String cep, String descricaoPessoal, String senha, List<Competencia> competencias) {
+        super(nome, email, pais, cep, descricaoPessoal)
+        this.sobrenome = sobrenome
+        this.dataNascimento = dataNascimento
         this.cpf = cpf
-        this.idade = idade
+        this.pais = pais
+        this.descricaoPessoal = descricaoPessoal
+        this.senha = senha
         this.competencias = competencias
     }
 
     @Override
     String toString() {
-        return super.toString() + ", CPF: $cpf, Idade: $idade, Competências: ${competencias.join(', ')}"
+        return super.toString() + ", Sobrenome: $sobrenome, CPF: $cpf, Data de Nascimento: $dataNascimento, País: $pais, Competências: ${competencias.join(', ')}"
     }
 }

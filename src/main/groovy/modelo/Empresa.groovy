@@ -1,19 +1,22 @@
 package modelo
 
 class Empresa extends Pessoa {
+    int idEmpresa
     String cnpj
+    String emailCorporativo
     String pais
-    List<Competencia> competencias
+    List<Competencia> competencias // Lista de competências relacionadas à empresa
 
-    Empresa(String nome, String email, String cnpj, String pais, String estado, String cep, String descricao, List<Competencia> competencias) {
-        super(nome, email, estado, cep, descricao)
+    Empresa(int idEmpresa, String nome, String emailCorporativo, String cnpj, String pais, String cep, String descricao, List<Competencia> competencias) {
+        super(nome, emailCorporativo, pais, cep, descricao)
+        this.idEmpresa = idEmpresa
         this.cnpj = cnpj
         this.pais = pais
-        this.competencias = competencias
+        this.competencias = competencias // Inicializando a lista de competências
     }
 
     @Override
     String toString() {
-        return super.toString() + ", CNPJ: $cnpj, País: $pais, Competências: ${competencias.join(', ')}"
+        return super.toString() + ", ID: $idEmpresa, CNPJ: $cnpj, País: $pais, Competências: ${competencias.join(', ')}"
     }
 }
