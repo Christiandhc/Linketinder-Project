@@ -18,8 +18,8 @@ class GerenciadorDeRecrutamento {
         candidatoDAO.adicionarCandidato(candidato)
     }
 
-    void adicionarEmpresa(int idEmpresa, String nome, String emailCorporativo, String cnpj, String pais, String estado, String cep, String descricao, List<Competencia> competencias) {
-        Empresa empresa = new Empresa(idEmpresa, nome, emailCorporativo, cnpj, pais, estado, cep, descricao, competencias)
+    void adicionarEmpresa(int idEmpresa, String nome, String emailCorporativo, String cnpj, String pais, String cep, String descricao, List<Competencia> competencias) {
+        Empresa empresa = new Empresa(idEmpresa, nome, emailCorporativo, cnpj, pais, cep, descricao, competencias)
         empresaDAO.adicionarEmpresa(empresa)
     }
 
@@ -87,9 +87,6 @@ class GerenciadorDeRecrutamento {
             def pais = solicitarInput("País", scanner)
             if (pais == '/cancelar') return
 
-            def estado = solicitarInput("Estado", scanner)
-            if (estado == '/cancelar') return
-
             def cep = solicitarInput("CEP", scanner)
             if (cep == '/cancelar') return
 
@@ -99,7 +96,7 @@ class GerenciadorDeRecrutamento {
             def competencias = solicitarCompetencias(scanner)
             if (competencias == null) return
 
-            adicionarEmpresa(idEmpresa.toInteger(), nome, emailCorporativo, cnpj, pais, estado, cep, descricao, competencias)
+            adicionarEmpresa(idEmpresa.toInteger(), nome, emailCorporativo, cnpj, pais, cep, descricao, competencias)
             println "Empresa adicionada com sucesso."
         } catch (Exception e) {
             println "Erro ao adicionar empresa: ${e.message}"
@@ -107,11 +104,11 @@ class GerenciadorDeRecrutamento {
     }
 
     List<Candidato> listarCandidatos() {
-        return candidatoDAO.listarTodos() // Mudança: agora busca candidatos do banco de dados
+        return candidatoDAO.listarTodos()
     }
 
     List<Empresa> listarEmpresas() {
-        return empresaDAO.listarTodos() // Mudança: agora busca empresas do banco de dados
+        return empresaDAO.listarTodos()
     }
 
     private static String solicitarInput(String campo, Scanner scanner) {
@@ -121,15 +118,14 @@ class GerenciadorDeRecrutamento {
 
     private static List<Competencia> solicitarCompetencias(Scanner scanner) {
         List<Competencia> competencias = []
-        int contador = 1 // Inicializa um contador para o idCompetencia
+        int contador = 1
         while (true) {
             def competenciaNome = solicitarInput("Competência (ou digite /fim para finalizar)", scanner)
             if (competenciaNome == '/fim') break
             if (competenciaNome == '/cancelar') return null
-            // Cria uma nova Competencia com o contador e o nome da competência
+
             competencias.add(new Competencia(contador++, competenciaNome))
         }
         return competencias
     }
 }
-

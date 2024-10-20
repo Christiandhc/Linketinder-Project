@@ -8,14 +8,14 @@ class VagaDAO {
 
     static void inserirVaga(Vaga vaga) {
         def connection = DatabaseConnection.getConnection()
-        def sql = "INSERT INTO vaga (nome_vaga, descricao_vaga, local_vaga, id_empresa) VALUES (?, ?, ?, ?)"  // Corrigido para refletir os nomes corretos das colunas
+        def sql = "INSERT INTO vaga (nome_vaga, descricao_vaga, local_vaga, id_empresa) VALUES (?, ?, ?, ?)"
 
         try {
             def stmt = connection.prepareStatement(sql)
-            stmt.setString(1, vaga.nomeVaga)         // Usando nomeVaga
-            stmt.setString(2, vaga.descricaoVaga)    // Usando descricaoVaga
-            stmt.setString(3, vaga.localVaga)        // Usando localVaga
-            stmt.setInt(4, vaga.idEmpresa)           // Usando idEmpresa
+            stmt.setString(1, vaga.nomeVaga)
+            stmt.setString(2, vaga.descricaoVaga)
+            stmt.setString(3, vaga.localVaga)
+            stmt.setInt(4, vaga.idEmpresa)
 
             stmt.executeUpdate()
         } catch (SQLException e) {
@@ -36,11 +36,11 @@ class VagaDAO {
 
             while (rs.next()) {
                 def vaga = new Vaga(
-                        rs.getInt("id_vaga"),           // ID da vaga
-                        rs.getString("nome_vaga"),      // Nome da vaga
-                        rs.getString("descricao_vaga"), // Descrição da vaga
-                        rs.getString("local_vaga"),     // Local da vaga
-                        rs.getInt("id_empresa")         // ID da empresa
+                        rs.getInt("id_vaga"),
+                        rs.getString("nome_vaga"),
+                        rs.getString("descricao_vaga"),
+                        rs.getString("local_vaga"),
+                        rs.getInt("id_empresa")
                 )
                 listaVagas.add(vaga)
             }

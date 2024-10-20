@@ -10,7 +10,6 @@ class Main {
         exibirMenu(sistema)
     }
 
-    // Exibe o menu principal e gerencia as interações do usuário
     static void exibirMenu(GerenciadorDeRecrutamento sistema) {
         def scanner = new Scanner(System.in)
         boolean sair = false

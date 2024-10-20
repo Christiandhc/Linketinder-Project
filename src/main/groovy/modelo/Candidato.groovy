@@ -5,7 +5,7 @@ import java.time.LocalDate
 class Candidato extends Pessoa {
     String cpf
     String sobrenome
-    LocalDate dataNascimento // Usando LocalDate
+    LocalDate dataNascimento
     String pais
     String descricaoPessoal
     String senha

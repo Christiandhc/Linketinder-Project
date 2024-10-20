@@ -5,14 +5,14 @@ class Empresa extends Pessoa {
     String cnpj
     String emailCorporativo
     String pais
-    List<Competencia> competencias // Lista de competências relacionadas à empresa
+    List<Competencia> competencias
 
     Empresa(int idEmpresa, String nome, String emailCorporativo, String cnpj, String pais, String cep, String descricao, List<Competencia> competencias) {
         super(nome, emailCorporativo, pais, cep, descricao)
         this.idEmpresa = idEmpresa
         this.cnpj = cnpj
         this.pais = pais
-        this.competencias = competencias // Inicializando a lista de competências
+        this.competencias = competencias
     }
 
     @Override

@@ -9,7 +9,7 @@ class Competencia {
         this.nomeCompetencia = nomeCompetencia
     }
 
-    String getNome() { // Adicione este método getter
+    String getNome() {
         return nomeCompetencia
     }
 
