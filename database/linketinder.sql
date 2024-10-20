@@ -65,20 +65,20 @@ CREATE TABLE curtida_empresa (
 
 INSERT INTO candidato (nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha)
 VALUES
-    ('Harry', 'Potter', '31/07/1980', 'harry.potter@example.com', '123.456.789-00', 'Inglaterra', '12345-678', 'Desenvolvedor Python e Django', 'senha@candidato1'),
-    ('Frodo', 'Baggins', '22/09/2000','frodo.baggins@example.com', '222.333.444-55', 'Condado', '56789-012', 'Especialista em Java e Spring', 'senha@candidato2'),
-    ('Katniss', 'Everdeen', '31/05/2001', 'katniss.everdeen@example.com', '333.444.555-66', 'Panem', '67890-123', 'Desenvolvedora Front-end Angular', 'senha@candidato3'),
-    ('Daenerys', 'Targaryen', '13/04/1999', 'daenerys.targaryen@example.com', '444.555.666-77', 'Dragonstone', '78901-234', 'Analista de Banco de Dados SQL', 'senha@candidato4'),    
-    ('Jon', 'Snow', '06/01/1999', 'jon.snow@example.com', '555.666.777-88', 'Winterfell', '89012-345', 'Desenvolvedor Full Stack JavaScript', 'senha@candidato5');
+    ('Harry', 'Potter', '31/07/1980', 'harry.potter@example.com', '12345678900', 'Inglaterra', '12345-678', 'Desenvolvedor Python e Django', 'senha@candidato1'),
+    ('Frodo', 'Baggins', '22/09/2000','frodo.baggins@example.com', '22233344455', 'Condado', '56789-012', 'Especialista em Java e Spring', 'senha@candidato2'),
+    ('Katniss', 'Everdeen', '31/05/2001', 'katniss.everdeen@example.com', '33344455566', 'Panem', '67890-123', 'Desenvolvedora Front-end Angular', 'senha@candidato3'),
+    ('Daenerys', 'Targaryen', '13/04/1999', 'daenerys.targaryen@example.com', '44455566677', 'Dragonstone', '78901-234', 'Analista de Banco de Dados SQL', 'senha@candidato4'),    
+    ('Jon', 'Snow', '06/01/1999', 'jon.snow@example.com', '55566677788', 'Winterfell', '89012-345', 'Desenvolvedor Full Stack JavaScript', 'senha@candidato5');
 
 
-INSERT INTO empresa (nome, cnpj, email_corporativo, descricao_empresa, pais, cep, senha)
+INSERT INTO empresa (nome_empresa, cnpj, email_corporativo, descricao_empresa, pais, cep, senha)
 VALUES
-    ('Gringotts Bank', '01.234.567/0001-00', 'contact@gringotts.com', 'Banco de Magia e Finanças', 'Reino Unido', '12345-678', 'senha@empresa1'),
-    ('Umbrella Corporation', '02.345.678/0001-11', 'contact@umbrella.com', 'Corporation de Tecnologia e Bioengenharia', 'EUA', '23456-789', 'senha@empresa2'),
-    ('Stark Industries', '03.456.789/0001-22', 'contact@starkindustries.com', 'Tecnologia Avançada e Inovação', 'EUA', '34567-890', 'senha@empresa3'),
-    ('WICKED', '04.567.890/0001-33', 'contact@wicked.com', 'Experimentos e Pesquisa', 'EUA', '45678-901', 'senha@empresa4'),
-    ('Vought International', '05.678.901/0001-44', 'contact@vought.com', 'Gestão de Super-heróis e Tecnologia', 'EUA', '56789-012', 'senha@empresa5');
+    ('Gringotts Bank', '01234567000100', 'contact@gringotts.com', 'Banco de Magia e Finanças', 'Reino Unido', '12345-678', 'senha@empresa1'),
+    ('Umbrella Corporation', '02345678000111', 'contact@umbrella.com', 'Corporation de Tecnologia e Bioengenharia', 'EUA', '23456-789', 'senha@empresa2'),
+    ('Stark Industries', '03456789000122', 'contact@starkindustries.com', 'Tecnologia Avançada e Inovação', 'EUA', '34567-890', 'senha@empresa3'),
+    ('WICKED', '04567890000133', 'contact@wicked.com', 'Experimentos e Pesquisa', 'EUA', '45678-901', 'senha@empresa4'),
+    ('Vought International', '05678901000144', 'contact@vought.com', 'Gestão de Super-heróis e Tecnologia', 'EUA', '56789-012', 'senha@empresa5');
 
 
 
