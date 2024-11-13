@@ -10,8 +10,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Scanner
 
 class GerenciadorDeRecrutamento {
-    CandidatoDAO candidatoDAO = new CandidatoDAO()
-    EmpresaDAO empresaDAO = new EmpresaDAO()
+    private final CandidatoDAO candidatoDAO = new CandidatoDAO()
+    private final EmpresaDAO empresaDAO = new EmpresaDAO()
 
     void adicionarCandidato(String nome, String sobrenome, LocalDate dataNascimento, String email, String cpf, String pais, String cep, String descricao, String senha, List<Competencia> competencias) {
         Candidato candidato = new Candidato(nome, sobrenome, dataNascimento, email, cpf, pais, cep, descricao, senha, competencias)
@@ -25,43 +25,16 @@ class GerenciadorDeRecrutamento {
 
     void cadastrarNovoCandidato(Scanner scanner) {
         try {
-            def nome = solicitarInput("Nome", scanner)
-            if (nome == '/cancelar') return
-
-            def sobrenome = solicitarInput("Sobrenome", scanner)
-            if (sobrenome == '/cancelar') return
-
-            LocalDate dataNascimento = null
-            while (dataNascimento == null) {
-                def dataStr = solicitarInput("Data de Nascimento (YYYY-MM-DD)", scanner)
-                if (dataStr == '/cancelar') return
-                try {
-                    dataNascimento = LocalDate.parse(dataStr, DateTimeFormatter.ISO_LOCAL_DATE)
-                } catch (Exception e) {
-                    println "Data inválida. Por favor, use o formato YYYY-MM-DD."
-                }
-            }
-
-            def email = solicitarInput("Email", scanner)
-            if (email == '/cancelar') return
-
-            def cpf = solicitarInput("CPF", scanner)
-            if (cpf == '/cancelar') return
-
-            def pais = solicitarInput("País", scanner)
-            if (pais == '/cancelar') return
-
-            def cep = solicitarInput("CEP", scanner)
-            if (cep == '/cancelar') return
-
-            def descricao = solicitarInput("Descrição", scanner)
-            if (descricao == '/cancelar') return
-
-            def senha = solicitarInput("Senha", scanner)
-            if (senha == '/cancelar') return
-
-            def competencias = solicitarCompetencias(scanner)
-            if (competencias == null) return
+            String nome = obterInput("Nome", scanner)
+            String sobrenome = obterInput("Sobrenome", scanner)
+            LocalDate dataNascimento = obterDataDeNascimento(scanner)
+            String email = obterInput("Email", scanner)
+            String cpf = obterInput("CPF", scanner)
+            String pais = obterInput("País", scanner)
+            String cep = obterInput("CEP", scanner)
+            String descricao = obterInput("Descrição", scanner)
+            String senha = obterInput("Senha", scanner)
+            List<Competencia> competencias = obterCompetencias(scanner)
 
             adicionarCandidato(nome, sobrenome, dataNascimento, email, cpf, pais, cep, descricao, senha, competencias)
             println "Candidato adicionado com sucesso."
@@ -72,31 +45,16 @@ class GerenciadorDeRecrutamento {
 
     void cadastrarNovaEmpresa(Scanner scanner) {
         try {
-            def idEmpresa = solicitarInput("ID da Empresa", scanner)
-            if (idEmpresa == '/cancelar') return
+            int idEmpresa = obterIdEmpresa(scanner)
+            String nome = obterInput("Nome", scanner)
+            String emailCorporativo = obterInput("Email Corporativo", scanner)
+            String cnpj = obterInput("CNPJ", scanner)
+            String pais = obterInput("País", scanner)
+            String cep = obterInput("CEP", scanner)
+            String descricao = obterInput("Descrição", scanner)
+            List<Competencia> competencias = obterCompetencias(scanner)
 
-            def nome = solicitarInput("Nome", scanner)
-            if (nome == '/cancelar') return
-
-            def emailCorporativo = solicitarInput("Email Corporativo", scanner)
-            if (emailCorporativo == '/cancelar') return
-
-            def cnpj = solicitarInput("CNPJ", scanner)
-            if (cnpj == '/cancelar') return
-
-            def pais = solicitarInput("País", scanner)
-            if (pais == '/cancelar') return
-
-            def cep = solicitarInput("CEP", scanner)
-            if (cep == '/cancelar') return
-
-            def descricao = solicitarInput("Descrição", scanner)
-            if (descricao == '/cancelar') return
-
-            def competencias = solicitarCompetencias(scanner)
-            if (competencias == null) return
-
-            adicionarEmpresa(idEmpresa.toInteger(), nome, emailCorporativo, cnpj, pais, cep, descricao, competencias)
+            adicionarEmpresa(idEmpresa, nome, emailCorporativo, cnpj, pais, cep, descricao, competencias)
             println "Empresa adicionada com sucesso."
         } catch (Exception e) {
             println "Erro ao adicionar empresa: ${e.message}"
@@ -111,21 +69,43 @@ class GerenciadorDeRecrutamento {
         return empresaDAO.listarTodos()
     }
 
-    private static String solicitarInput(String campo, Scanner scanner) {
+    private static String obterInput(String campo, Scanner scanner) {
         print "$campo (ou digite /cancelar para desistir): "
-        return scanner.nextLine()
+        def input = scanner.nextLine()
+        if (input.equalsIgnoreCase("/cancelar")) throw new IllegalArgumentException("Operação cancelada pelo usuário.")
+        return input
     }
 
-    private static List<Competencia> solicitarCompetencias(Scanner scanner) {
+    private static LocalDate obterDataDeNascimento(Scanner scanner) {
+        while (true) {
+            String dataStr = obterInput("Data de Nascimento (YYYY-MM-DD)", scanner)
+            try {
+                return LocalDate.parse(dataStr, DateTimeFormatter.ISO_LOCAL_DATE)
+            } catch (Exception e) {
+                println "Data inválida. Por favor, use o formato YYYY-MM-DD."
+            }
+        }
+    }
+
+    private static int obterIdEmpresa(Scanner scanner) {
+        while (true) {
+            try {
+                return Integer.parseInt(obterInput("ID da Empresa", scanner))
+            } catch (NumberFormatException e) {
+                println "ID inválido. Por favor, insira um número."
+            }
+        }
+    }
+
+    private static List<Competencia> obterCompetencias(Scanner scanner) {
         List<Competencia> competencias = []
         int contador = 1
         while (true) {
-            def competenciaNome = solicitarInput("Competência (ou digite /fim para finalizar)", scanner)
-            if (competenciaNome == '/fim') break
-            if (competenciaNome == '/cancelar') return null
-
-            competencias.add(new Competencia(contador++, competenciaNome))
+            String nomeCompetencia = obterInput("Competência (ou digite /fim para finalizar)", scanner)
+            if (nomeCompetencia.equalsIgnoreCase("/fim")) break
+            competencias.add(new Competencia(contador++, nomeCompetencia))
         }
         return competencias
     }
 }
+
