@@ -2,6 +2,7 @@ package dao
 
 import modelo.Candidato
 import database.DatabaseConnection
+import java.sql.Connection
 import java.sql.SQLException
 import java.util.logging.Logger
 
@@ -10,8 +11,8 @@ class CandidatoDAO {
     private static final Logger logger = Logger.getLogger(CandidatoDAO.class.name)
 
     static void inserirCandidato(Candidato candidato) {
-        def connection = DatabaseConnection.getConnection()
-        def sql = "INSERT INTO candidato (nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        Connection connection = DatabaseConnection.getConnection()
+        String sql = "INSERT INTO candidato (nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
         try {
             def stmt = connection.prepareStatement(sql)
@@ -34,16 +35,16 @@ class CandidatoDAO {
     }
 
     static List<Candidato> listarCandidatos() {
-        def connection = DatabaseConnection.getConnection()
-        def sql = "SELECT * FROM candidato"
-        def listaCandidatos = []
+        Connection connection = DatabaseConnection.getConnection()
+        String sql = "SELECT * FROM candidato"
+        List<Candidato> listaCandidatos = []
 
         try {
             def stmt = connection.createStatement()
             def rs = stmt.executeQuery(sql)
 
             while (rs.next()) {
-                def candidato = new Candidato(
+                Candidato candidato = new Candidato(
                         rs.getString("nome"),
                         rs.getString("sobrenome"),
                         rs.getDate("data_nascimento").toLocalDate(),

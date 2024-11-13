@@ -2,6 +2,7 @@ package dao
 
 import modelo.Empresa
 import database.DatabaseConnection
+import java.sql.Connection
 import java.sql.SQLException
 import java.util.logging.Logger
 
@@ -10,8 +11,8 @@ class EmpresaDAO {
     private static final Logger logger = Logger.getLogger(EmpresaDAO.class.name)
 
     static void inserirEmpresa(Empresa empresa) {
-        def connection = DatabaseConnection.getConnection()
-        def sql = "INSERT INTO empresa (nome, email, cnpj, pais, cep, descricao) VALUES (?, ?, ?, ?, ?, ?)"
+        Connection connection = DatabaseConnection.getConnection()
+        String sql = "INSERT INTO empresa (nome, email, cnpj, pais, cep, descricao) VALUES (?, ?, ?, ?, ?, ?)"
 
         try {
             def stmt = connection.prepareStatement(sql)
@@ -31,16 +32,16 @@ class EmpresaDAO {
     }
 
     static List<Empresa> listarEmpresas() {
-        def connection = DatabaseConnection.getConnection()
-        def sql = "SELECT * FROM empresa"
-        def listaEmpresas = []
+        Connection connection = DatabaseConnection.getConnection()
+        String sql = "SELECT * FROM empresa"
+        List<Empresa> listaEmpresas = []
 
         try {
             def stmt = connection.createStatement()
             def rs = stmt.executeQuery(sql)
 
             while (rs.next()) {
-                def empresa = new Empresa(
+                Empresa empresa = new Empresa(
                         rs.getInt("id_empresa"),
                         rs.getString("nome"),
                         rs.getString("email"),
@@ -61,4 +62,5 @@ class EmpresaDAO {
         return listaEmpresas
     }
 }
+
 

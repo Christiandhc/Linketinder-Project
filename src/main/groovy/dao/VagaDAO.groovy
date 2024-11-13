@@ -2,6 +2,7 @@ package dao
 
 import modelo.Vaga
 import database.DatabaseConnection
+import java.sql.Connection
 import java.sql.SQLException
 import java.util.logging.Logger
 
@@ -10,8 +11,8 @@ class VagaDAO {
     private static final Logger logger = Logger.getLogger(VagaDAO.class.name)
 
     static void inserirVaga(Vaga vaga) {
-        def connection = DatabaseConnection.getConnection()
-        def sql = "INSERT INTO vaga (nome_vaga, descricao_vaga, local_vaga, id_empresa) VALUES (?, ?, ?, ?)"
+        Connection connection = DatabaseConnection.getConnection()
+        String sql = "INSERT INTO vaga (nome_vaga, descricao_vaga, local_vaga, id_empresa) VALUES (?, ?, ?, ?)"
 
         try {
             def stmt = connection.prepareStatement(sql)
@@ -29,16 +30,16 @@ class VagaDAO {
     }
 
     static List<Vaga> listarVagas() {
-        def connection = DatabaseConnection.getConnection()
-        def sql = "SELECT * FROM vaga"
-        def listaVagas = []
+        Connection connection = DatabaseConnection.getConnection()
+        String sql = "SELECT * FROM vaga"
+        List<Vaga> listaVagas = []
 
         try {
             def stmt = connection.createStatement()
             def rs = stmt.executeQuery(sql)
 
             while (rs.next()) {
-                def vaga = new Vaga(
+                Vaga vaga = new Vaga(
                         rs.getInt("id_vaga"),
                         rs.getString("nome_vaga"),
                         rs.getString("descricao_vaga"),
@@ -56,3 +57,4 @@ class VagaDAO {
         return listaVagas
     }
 }
+
