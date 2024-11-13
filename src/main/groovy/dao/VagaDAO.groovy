@@ -3,8 +3,11 @@ package dao
 import modelo.Vaga
 import database.DatabaseConnection
 import java.sql.SQLException
+import java.util.logging.Logger
 
 class VagaDAO {
+
+    private static final Logger logger = Logger.getLogger(VagaDAO.class.name)
 
     static void inserirVaga(Vaga vaga) {
         def connection = DatabaseConnection.getConnection()
@@ -19,7 +22,7 @@ class VagaDAO {
 
             stmt.executeUpdate()
         } catch (SQLException e) {
-            println "Erro ao inserir vaga: ${e.message}"
+            logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir vaga", e)
         } finally {
             connection.close()
         }
@@ -45,7 +48,7 @@ class VagaDAO {
                 listaVagas.add(vaga)
             }
         } catch (SQLException e) {
-            println "Erro ao listar vagas: ${e.message}"
+            logger.log(java.util.logging.Level.SEVERE, "Erro ao listar vagas", e)
         } finally {
             connection.close()
         }

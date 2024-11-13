@@ -3,8 +3,11 @@ package dao
 import modelo.Candidato
 import database.DatabaseConnection
 import java.sql.SQLException
+import java.util.logging.Logger
 
 class CandidatoDAO {
+
+    private static final Logger logger = Logger.getLogger(CandidatoDAO.class.name)
 
     static void inserirCandidato(Candidato candidato) {
         def connection = DatabaseConnection.getConnection()
@@ -14,17 +17,17 @@ class CandidatoDAO {
             def stmt = connection.prepareStatement(sql)
             stmt.setString(1, candidato.nome)
             stmt.setString(2, candidato.sobrenome)
-            stmt.setDate(3, java.sql.Date.valueOf(candidato.dataNascimento.toString()))  // Conversão de LocalDate para java.sql.Date
+            stmt.setDate(3, java.sql.Date.valueOf(candidato.dataNascimento.toString()))
             stmt.setString(4, candidato.email)
             stmt.setString(5, candidato.cpf)
-            stmt.setString(6, candidato.pais) // Corrigido para usar 'pais'
+            stmt.setString(6, candidato.pais)
             stmt.setString(7, candidato.cep)
-            stmt.setString(8, candidato.descricaoPessoal) // Corrigido para usar 'descricaoPessoal'
+            stmt.setString(8, candidato.descricaoPessoal)
             stmt.setString(9, candidato.senha)
 
             stmt.executeUpdate()
         } catch (SQLException e) {
-            println "Erro ao inserir candidato: ${e.message}"
+            logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir candidato", e)
         } finally {
             connection.close()
         }
@@ -42,11 +45,11 @@ class CandidatoDAO {
             while (rs.next()) {
                 def candidato = new Candidato(
                         rs.getString("nome"),
-                        rs.getString("sobrenome"), // Corrigido para obter sobrenome
-                        rs.getDate("data_nascimento").toLocalDate(), // Conversão para LocalDate
+                        rs.getString("sobrenome"),
+                        rs.getDate("data_nascimento").toLocalDate(),
                         rs.getString("email"),
                         rs.getString("cpf"),
-                        rs.getString("pais"), // Corrigido para obter país
+                        rs.getString("pais"),
                         rs.getString("cep"),
                         rs.getString("descricao_pessoal"),
                         "",
@@ -55,7 +58,7 @@ class CandidatoDAO {
                 listaCandidatos.add(candidato)
             }
         } catch (SQLException e) {
-            println "Erro ao listar candidatos: ${e.message}"
+            logger.log(java.util.logging.Level.SEVERE, "Erro ao listar candidatos", e)
         } finally {
             connection.close()
         }

@@ -3,8 +3,11 @@ package dao
 import modelo.Empresa
 import database.DatabaseConnection
 import java.sql.SQLException
+import java.util.logging.Logger
 
 class EmpresaDAO {
+
+    private static final Logger logger = Logger.getLogger(EmpresaDAO.class.name)
 
     static void inserirEmpresa(Empresa empresa) {
         def connection = DatabaseConnection.getConnection()
@@ -21,7 +24,7 @@ class EmpresaDAO {
 
             stmt.executeUpdate()
         } catch (SQLException e) {
-            println "Erro ao inserir empresa: ${e.message}"
+            logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir empresa", e)
         } finally {
             connection.close()
         }
@@ -50,7 +53,7 @@ class EmpresaDAO {
                 listaEmpresas.add(empresa)
             }
         } catch (SQLException e) {
-            println "Erro ao listar empresas: ${e.message}"
+            logger.log(java.util.logging.Level.SEVERE, "Erro ao listar empresas", e)
         } finally {
             connection.close()
         }
@@ -58,3 +61,4 @@ class EmpresaDAO {
         return listaEmpresas
     }
 }
+
