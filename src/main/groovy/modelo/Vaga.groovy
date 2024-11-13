@@ -17,6 +17,10 @@ class Vaga {
 
     @Override
     String toString() {
+        return formatVagaToString()
+    }
+
+    private String formatVagaToString() {
         return "Vaga(idVaga=$idVaga, nomeVaga='$nomeVaga', descricaoVaga='$descricaoVaga', localVaga='$localVaga', idEmpresa=$idEmpresa)"
     }
 }
