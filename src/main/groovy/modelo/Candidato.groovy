@@ -24,6 +24,15 @@ class Candidato extends Pessoa {
 
     @Override
     String toString() {
-        return super.toString() + ", Sobrenome: $sobrenome, CPF: $cpf, Data de Nascimento: $dataNascimento, País: $pais, Competências: ${competencias.join(', ')}"
+        return super.toString() + ", " + formatarDetalhesCandidato()
+    }
+
+    private String formatarDetalhesCandidato() {
+        return "Sobrenome: $sobrenome, CPF: $cpf, Data de Nascimento: $dataNascimento, País: $pais, Competências: ${formatarCompetencias()}"
+    }
+
+    private String formatarCompetencias() {
+        return competencias?.join(', ') ?: "Nenhuma competência"
     }
 }
+

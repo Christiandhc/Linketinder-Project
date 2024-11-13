@@ -17,6 +17,11 @@ class Empresa extends Pessoa {
 
     @Override
     String toString() {
-        return super.toString() + ", ID: $idEmpresa, CNPJ: $cnpj, País: $pais, Competências: ${competencias.join(', ')}"
+        return formatarToString()
+    }
+
+    private String formatarToString() {
+        return "${super.toString()}, ID: $idEmpresa, CNPJ: $cnpj, País: $pais, Competências: ${competencias.join(', ')}"
     }
 }
+

@@ -17,6 +17,11 @@ abstract class Pessoa {
 
     @Override
     String toString() {
-        return "Nome: ${nome}, Email: ${email}, Pais: ${pais}, CEP: ${cep}, Descrição: ${descricao}"
+        return formatarToString()
+    }
+
+    private String formatarToString() {
+        return "Nome: $nome, Email: $email, Pais: $pais, CEP: $cep, Descrição: $descricao"
     }
 }
+

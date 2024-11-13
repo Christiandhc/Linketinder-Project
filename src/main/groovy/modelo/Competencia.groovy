@@ -9,12 +9,17 @@ class Competencia {
         this.nomeCompetencia = nomeCompetencia
     }
 
-    String getNome() {
+    String getNomeCompetencia() {
         return nomeCompetencia
     }
 
     @Override
     String toString() {
+        return formatarToString()
+    }
+
+    private String formatarToString() {
         return nomeCompetencia
     }
 }
+

@@ -3,6 +3,8 @@ package dao
 import modelo.Candidato
 import database.DatabaseConnection
 import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.logging.Logger
 
@@ -11,59 +13,77 @@ class CandidatoDAO {
     private static final Logger logger = Logger.getLogger(CandidatoDAO.class.name)
 
     static void inserirCandidato(Candidato candidato) {
+        String sqlInsert = """
+            INSERT INTO candidato (nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        executeInsertCandidato(candidato, sqlInsert)
+    }
+
+    private static void executeInsertCandidato(Candidato candidato, String sqlInsert) {
         Connection connection = DatabaseConnection.getConnection()
-        String sql = "INSERT INTO candidato (nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
         try {
-            def stmt = connection.prepareStatement(sql)
-            stmt.setString(1, candidato.nome)
-            stmt.setString(2, candidato.sobrenome)
-            stmt.setDate(3, java.sql.Date.valueOf(candidato.dataNascimento.toString()))
-            stmt.setString(4, candidato.email)
-            stmt.setString(5, candidato.cpf)
-            stmt.setString(6, candidato.pais)
-            stmt.setString(7, candidato.cep)
-            stmt.setString(8, candidato.descricaoPessoal)
-            stmt.setString(9, candidato.senha)
-
+            PreparedStatement stmt = connection.prepareStatement(sqlInsert)
+            preencherParametrosInsercao(stmt, candidato)
             stmt.executeUpdate()
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir candidato", e)
         } finally {
-            connection.close()
+            connection?.close()
         }
     }
 
+    private static void preencherParametrosInsercao(PreparedStatement stmt, Candidato candidato) {
+        stmt.setString(1, candidato.nome)
+        stmt.setString(2, candidato.sobrenome)
+        stmt.setDate(3, java.sql.Date.valueOf(candidato.dataNascimento))
+        stmt.setString(4, candidato.email)
+        stmt.setString(5, candidato.cpf)
+        stmt.setString(6, candidato.pais)
+        stmt.setString(7, candidato.cep)
+        stmt.setString(8, candidato.descricaoPessoal)
+        stmt.setString(9, candidato.senha)
+    }
+
     static List<Candidato> listarCandidatos() {
+        String sqlSelect = "SELECT * FROM candidato"
+        executeListarCandidatos(sqlSelect)
+    }
+
+    private static List<Candidato> executeListarCandidatos(String sqlSelect) {
         Connection connection = DatabaseConnection.getConnection()
-        String sql = "SELECT * FROM candidato"
         List<Candidato> listaCandidatos = []
 
         try {
-            def stmt = connection.createStatement()
-            def rs = stmt.executeQuery(sql)
+            PreparedStatement stmt = connection.createStatement()
+            ResultSet rs = stmt.executeQuery(sqlSelect)
 
             while (rs.next()) {
-                Candidato candidato = new Candidato(
-                        rs.getString("nome"),
-                        rs.getString("sobrenome"),
-                        rs.getDate("data_nascimento").toLocalDate(),
-                        rs.getString("email"),
-                        rs.getString("cpf"),
-                        rs.getString("pais"),
-                        rs.getString("cep"),
-                        rs.getString("descricao_pessoal"),
-                        "",
-                        []
-                )
-                listaCandidatos.add(candidato)
+                listaCandidatos.add(criarCandidato(rs))
             }
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao listar candidatos", e)
         } finally {
-            connection.close()
+            connection?.close()
         }
 
-        return listaCandidatos
+        listaCandidatos
+    }
+
+    private static Candidato criarCandidato(ResultSet rs) {
+        new Candidato(
+                rs.getString("nome"),
+                rs.getString("sobrenome"),
+                rs.getDate("data_nascimento").toLocalDate(),
+                rs.getString("email"),
+                rs.getString("cpf"),
+                rs.getString("pais"),
+                rs.getString("cep"),
+                rs.getString("descricao_pessoal"),
+                "",
+                []
+        )
     }
 }
+

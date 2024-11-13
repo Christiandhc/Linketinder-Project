@@ -3,6 +3,8 @@ package dao
 import modelo.Empresa
 import database.DatabaseConnection
 import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.logging.Logger
 
@@ -15,17 +17,12 @@ class EmpresaDAO {
         String sql = "INSERT INTO empresa (nome, email, cnpj, pais, cep, descricao) VALUES (?, ?, ?, ?, ?, ?)"
 
         try {
-            def stmt = connection.prepareStatement(sql)
-            stmt.setString(1, empresa.nome)
-            stmt.setString(2, empresa.emailCorporativo)
-            stmt.setString(3, empresa.cnpj)
-            stmt.setString(4, empresa.pais)
-            stmt.setString(5, empresa.cep)
-            stmt.setString(6, empresa.descricao)
-
-            stmt.executeUpdate()
+            def preparedStatement = connection.prepareStatement(sql)
+            preencherCamposEmpresa(empresa, preparedStatement)
+            preparedStatement.executeUpdate()
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir empresa", e)
+            throw new DatabaseException("Erro ao inserir empresa", e)
         } finally {
             connection.close()
         }
@@ -37,30 +34,44 @@ class EmpresaDAO {
         List<Empresa> listaEmpresas = []
 
         try {
-            def stmt = connection.createStatement()
-            def rs = stmt.executeQuery(sql)
+            def preparedStatement = connection.createStatement()
+            def rs = preparedStatement.executeQuery(sql)
 
             while (rs.next()) {
-                Empresa empresa = new Empresa(
-                        rs.getInt("id_empresa"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("cnpj"),
-                        rs.getString("pais"),
-                        rs.getString("cep"),
-                        rs.getString("descricao"),
-                        [] // Passando uma lista vazia
-                )
-                listaEmpresas.add(empresa)
+                listaEmpresas.add(mapearEmpresa(rs))
             }
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao listar empresas", e)
+            throw new DatabaseException("Erro ao listar empresas", e)
         } finally {
             connection.close()
         }
 
         return listaEmpresas
     }
+
+    private static void preencherCamposEmpresa(Empresa empresa, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setString(1, empresa.nome)
+        preparedStatement.setString(2, empresa.emailCorporativo)
+        preparedStatement.setString(3, empresa.cnpj)
+        preparedStatement.setString(4, empresa.pais)
+        preparedStatement.setString(5, empresa.cep)
+        preparedStatement.setString(6, empresa.descricao)
+    }
+
+    private static Empresa mapearEmpresa(ResultSet rs) throws SQLException {
+        return new Empresa(
+                rs.getInt("id_empresa"),
+                rs.getString("nome"),
+                rs.getString("email"),
+                rs.getString("cnpj"),
+                rs.getString("pais"),
+                rs.getString("cep"),
+                rs.getString("descricao"),
+                []
+        )
+    }
 }
+
 
 
