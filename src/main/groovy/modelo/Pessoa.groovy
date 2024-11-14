@@ -15,6 +15,18 @@ abstract class Pessoa {
         this.descricao = descricao
     }
 
+    String getEmail() {
+        return email
+    }
+
+    String getCep() {
+        return cep
+    }
+
+    String getDescricao() {
+        return descricao
+    }
+
     @Override
     String toString() {
         return formatarToString()
@@ -24,4 +36,5 @@ abstract class Pessoa {
         return "Nome: $nome, Email: $email, Pais: $pais, CEP: $cep, Descrição: $descricao"
     }
 }
+
 

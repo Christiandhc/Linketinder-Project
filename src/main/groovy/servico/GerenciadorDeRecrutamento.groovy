@@ -15,12 +15,12 @@ class GerenciadorDeRecrutamento {
 
     void adicionarCandidato(String nome, String sobrenome, LocalDate dataNascimento, String email, String cpf, String pais, String cep, String descricao, String senha, List<Competencia> competencias) {
         Candidato candidato = new Candidato(nome, sobrenome, dataNascimento, email, cpf, pais, cep, descricao, senha, competencias)
-        candidatoDAO.adicionarCandidato(candidato)
+        candidatoDAO.inserirCandidato(candidato)
     }
 
     void adicionarEmpresa(int idEmpresa, String nome, String emailCorporativo, String cnpj, String pais, String cep, String descricao, List<Competencia> competencias) {
         Empresa empresa = new Empresa(idEmpresa, nome, emailCorporativo, cnpj, pais, cep, descricao, competencias)
-        empresaDAO.adicionarEmpresa(empresa)
+        empresaDAO.inserirEmpresa(empresa)
     }
 
     void cadastrarNovoCandidato(Scanner scanner) {
@@ -62,11 +62,12 @@ class GerenciadorDeRecrutamento {
     }
 
     List<Candidato> listarCandidatos() {
-        return candidatoDAO.listarTodos()
+        return candidatoDAO.listarCandidatos()
+
     }
 
     List<Empresa> listarEmpresas() {
-        return empresaDAO.listarTodos()
+        return empresaDAO.listarEmpresas()
     }
 
     private static String obterInput(String campo, Scanner scanner) {

@@ -15,7 +15,7 @@ class EmpresaSpec extends Specification {
         empresa.pais == "Westeros"
         empresa.cep == "54321-876"
         empresa.descricao == "Empresa de tecnologia"
-        empresa.competencias*.nome.containsAll(["DevOps", "CyberSegurança"])
+        empresa.competencias*.nomeCompetencia.containsAll(["DevOps", "CyberSegurança"])
     }
 
     private Empresa criarNovaEmpresa() {
@@ -26,4 +26,3 @@ class EmpresaSpec extends Specification {
         )
     }
 }
-
