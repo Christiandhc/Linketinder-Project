@@ -6,8 +6,6 @@ class Candidato extends Pessoa {
     String cpf
     String sobrenome
     LocalDate dataNascimento
-    String pais
-    String descricaoPessoal
     String senha
     List<Competencia> competencias
 
@@ -16,23 +14,14 @@ class Candidato extends Pessoa {
         this.sobrenome = sobrenome
         this.dataNascimento = dataNascimento
         this.cpf = cpf
-        this.pais = pais
-        this.descricaoPessoal = descricaoPessoal
         this.senha = senha
         this.competencias = competencias
     }
 
     @Override
     String toString() {
-        return super.toString() + ", " + formatarDetalhesCandidato()
-    }
-
-    private String formatarDetalhesCandidato() {
-        return "Sobrenome: $sobrenome, CPF: $cpf, Data de Nascimento: $dataNascimento, País: $pais, Competências: ${formatarCompetencias()}"
-    }
-
-    private String formatarCompetencias() {
-        return competencias?.join(', ') ?: "Nenhuma competência"
+        return super.toString() + ", Sobrenome: $sobrenome, CPF: $cpf, Data de Nascimento: $dataNascimento, Competências: ${competencias?.join(', ') ?: 'Nenhuma competência'}"
     }
 }
+
 

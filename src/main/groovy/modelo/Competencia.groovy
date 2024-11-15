@@ -1,25 +1,31 @@
 package modelo
 
 class Competencia {
-    int idCompetencia
-    String nomeCompetencia
+    private int idCompetencia
+    private String nomeCompetencia
 
     Competencia(int idCompetencia, String nomeCompetencia) {
         this.idCompetencia = idCompetencia
         this.nomeCompetencia = nomeCompetencia
     }
 
+
+    int getIdCompetencia() {
+        return idCompetencia
+    }
+
     String getNomeCompetencia() {
         return nomeCompetencia
     }
 
-    @Override
-    String toString() {
-        return formatarToString()
+    void setNomeCompetencia(String nomeCompetencia) {
+        this.nomeCompetencia = nomeCompetencia
     }
 
-    private String formatarToString() {
+    @Override
+    String toString() {
         return nomeCompetencia
     }
 }
+
 
