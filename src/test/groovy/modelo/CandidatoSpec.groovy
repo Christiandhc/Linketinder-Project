@@ -7,8 +7,8 @@ class CandidatoSpec extends Specification {
 
     def "Deve adicionar um novo candidato à lista de candidatos"() {
         given: "Uma lista vazia de candidatos e um novo candidato"
-        List<Candidato> listaCandidatos = criarListaVaziaDeCandidatos()
-        Candidato novoCandidato = criarNovoCandidato()
+        List<Candidato> listaCandidatos = criarListaVazia()
+        Candidato novoCandidato = Mock(Candidato)
 
         when: "O novo candidato é adicionado à lista"
         listaCandidatos.add(novoCandidato)
@@ -18,16 +18,8 @@ class CandidatoSpec extends Specification {
         listaCandidatos[0] == novoCandidato
     }
 
-    private List<Candidato> criarListaVaziaDeCandidatos() {
+    private List<Candidato> criarListaVazia() {
         return []
     }
-
-    private Candidato criarNovoCandidato() {
-        return new Candidato(
-                "Arya Stark", "Sobrenome", LocalDate.of(2000, 1, 1),
-                "arya.stark@example.com", "123.456.789-00", "Winterfell",
-                "12345-678", "Desenvolvedora Java", "senhaSegura",
-                [new Competencia(1, "Java")]
-        )
-    }
 }
+
