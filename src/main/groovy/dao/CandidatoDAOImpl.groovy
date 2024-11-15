@@ -1,16 +1,18 @@
 package dao
 
 import modelo.Candidato
-import database.DatabaseConnection
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.logging.Logger
 
-class CandidatoDAOImpl implements CandidatoDAO {
-
+class CandidatoDAOImpl extends BaseDAO implements CandidatoDAO {
     private static final Logger logger = Logger.getLogger(CandidatoDAOImpl.class.name)
+
+    CandidatoDAOImpl(Connection connection) {
+        super(connection)
+    }
 
     @Override
     void inserirCandidato(Candidato candidato) {
@@ -18,21 +20,27 @@ class CandidatoDAOImpl implements CandidatoDAO {
             INSERT INTO candidato (nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
-        executeInsertCandidato(candidato, sqlInsert)
-    }
-
-    private void executeInsertCandidato(Candidato candidato, String sqlInsert) {
-        Connection connection = DatabaseConnection.getConnection()
-
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sqlInsert)
+        try (PreparedStatement stmt = connection.prepareStatement(sqlInsert)) {
             preencherParametrosInsercao(stmt, candidato)
             stmt.executeUpdate()
         } catch (SQLException e) {
-            logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir candidato", e)
-        } finally {
-            connection?.close()
+            logger.severe("Erro ao inserir candidato: ${e.message}")
         }
+    }
+
+    @Override
+    List<Candidato> listarCandidatos() {
+        String sqlSelect = "SELECT * FROM candidato"
+        List<Candidato> listaCandidatos = []
+        try (PreparedStatement stmt = connection.prepareStatement(sqlSelect);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                listaCandidatos.add(criarCandidato(rs))
+            }
+        } catch (SQLException e) {
+            logger.severe("Erro ao listar candidatos: ${e.message}")
+        }
+        return listaCandidatos
     }
 
     private void preencherParametrosInsercao(PreparedStatement stmt, Candidato candidato) {
@@ -47,34 +55,8 @@ class CandidatoDAOImpl implements CandidatoDAO {
         stmt.setString(9, candidato.senha)
     }
 
-    @Override
-    List<Candidato> listarCandidatos() {
-        String sqlSelect = "SELECT * FROM candidato"
-        executeListarCandidatos(sqlSelect)
-    }
-
-    private List<Candidato> executeListarCandidatos(String sqlSelect) {
-        Connection connection = DatabaseConnection.getConnection()
-        List<Candidato> listaCandidatos = []
-
-        try {
-            PreparedStatement stmt = connection.createStatement()
-            ResultSet rs = stmt.executeQuery(sqlSelect)
-
-            while (rs.next()) {
-                listaCandidatos.add(criarCandidato(rs))
-            }
-        } catch (SQLException e) {
-            logger.log(java.util.logging.Level.SEVERE, "Erro ao listar candidatos", e)
-        } finally {
-            connection?.close()
-        }
-
-        listaCandidatos
-    }
-
     private Candidato criarCandidato(ResultSet rs) {
-        new Candidato(
+        return new Candidato(
                 rs.getString("nome"),
                 rs.getString("sobrenome"),
                 rs.getDate("data_nascimento").toLocalDate(),
@@ -88,3 +70,4 @@ class CandidatoDAOImpl implements CandidatoDAO {
         )
     }
 }
+

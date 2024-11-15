@@ -1,35 +1,30 @@
 package dao
 
 import modelo.Empresa
-import database.DatabaseConnection
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.logging.Logger
 
-class EmpresaDAOImpl implements EmpresaDAO {
+class EmpresaDAOImpl extends BaseDAO implements EmpresaDAO {
 
     private static final Logger logger = Logger.getLogger(EmpresaDAOImpl.class.name)
-    private Connection connection
 
     EmpresaDAOImpl(Connection connection) {
-        this.connection = connection
+        super(connection)
     }
 
     @Override
     void inserirEmpresa(Empresa empresa) {
         String sql = "INSERT INTO empresa (nome, email, cnpj, pais, cep, descricao) VALUES (?, ?, ?, ?, ?, ?)"
 
-        try {
-            def preparedStatement = connection.prepareStatement(sql)
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preencherCamposEmpresa(empresa, preparedStatement)
             preparedStatement.executeUpdate()
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir empresa", e)
             throw new DatabaseException("Erro ao inserir empresa", e)
-        } finally {
-            connection.close()
         }
     }
 
@@ -38,18 +33,14 @@ class EmpresaDAOImpl implements EmpresaDAO {
         String sql = "SELECT * FROM empresa"
         List<Empresa> listaEmpresas = []
 
-        try {
-            def preparedStatement = connection.createStatement()
-            def rs = preparedStatement.executeQuery(sql)
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 listaEmpresas.add(mapearEmpresa(rs))
             }
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao listar empresas", e)
             throw new DatabaseException("Erro ao listar empresas", e)
-        } finally {
-            connection.close()
         }
 
         return listaEmpresas

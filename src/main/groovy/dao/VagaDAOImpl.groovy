@@ -1,35 +1,30 @@
 package dao
 
 import modelo.Vaga
-import database.DatabaseConnection
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.logging.Logger
 
-class VagaDAOImpl implements VagaDAO {
+class VagaDAOImpl extends BaseDAO implements VagaDAO {
 
     private static final Logger logger = Logger.getLogger(VagaDAOImpl.class.name)
-    private Connection connection
 
     VagaDAOImpl(Connection connection) {
-        this.connection = connection
+        super(connection)
     }
 
     @Override
     void inserirVaga(Vaga vaga) {
         String sql = "INSERT INTO vaga (nome_vaga, descricao_vaga, local_vaga, id_empresa) VALUES (?, ?, ?, ?)"
 
-        try {
-            def preparedStatement = connection.prepareStatement(sql)
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             prepararStatement(vaga, preparedStatement)
             preparedStatement.executeUpdate()
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao inserir vaga", e)
             throw new DatabaseException("Erro ao inserir vaga", e)
-        } finally {
-            connection.close()
         }
     }
 
@@ -38,18 +33,14 @@ class VagaDAOImpl implements VagaDAO {
         String sql = "SELECT * FROM vaga"
         List<Vaga> listaVagas = []
 
-        try {
-            def preparedStatement = connection.createStatement()
-            def rs = preparedStatement.executeQuery(sql)
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 listaVagas.add(mapearVaga(rs))
             }
         } catch (SQLException e) {
             logger.log(java.util.logging.Level.SEVERE, "Erro ao listar vagas", e)
             throw new DatabaseException("Erro ao listar vagas", e)
-        } finally {
-            connection.close()
         }
 
         return listaVagas
