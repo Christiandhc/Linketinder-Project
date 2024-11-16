@@ -1,6 +1,6 @@
-package dao
+package model.dao
 
-import modelo.Empresa
+import model.Empresa
 
 interface EmpresaDAO {
     void inserirEmpresa(Empresa empresa)

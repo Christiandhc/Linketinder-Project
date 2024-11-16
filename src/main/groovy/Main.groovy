@@ -1,9 +1,9 @@
-import aplicacao.InterfaceUsuario
+import controller.InterfaceUsuario
 import dao.CandidatoDAOImpl
 import dao.EmpresaDAOImpl
 import database.DatabaseConnection
-import servico.GerenciadorDeRecrutamento
-import servico.RecrutamentoService
+import service.GerenciadorDeRecrutamento
+import service.RecrutamentoService
 
 class Main {
     static void main(String[] args) {

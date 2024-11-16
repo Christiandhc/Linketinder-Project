@@ -1,8 +1,8 @@
-package servico
+package service
 
-import java.util.Scanner
+
 import java.time.LocalDate
-import modelo.Competencia
+import model.Competencia
 
 class GerenciadorDeRecrutamento {
     private final RecrutamentoService recrutamentoService

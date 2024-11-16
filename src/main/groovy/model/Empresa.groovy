@@ -1,4 +1,4 @@
-package modelo
+package model
 
 class Empresa extends Pessoa {
     int idEmpresa

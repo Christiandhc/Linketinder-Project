@@ -1,7 +1,6 @@
-package modelo
+package model
 
 import spock.lang.Specification
-import java.time.LocalDate
 
 class CandidatoSpec extends Specification {
 

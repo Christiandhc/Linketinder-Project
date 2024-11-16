@@ -1,4 +1,4 @@
-package modelo
+package model
 
 class Vaga {
     private int idVaga

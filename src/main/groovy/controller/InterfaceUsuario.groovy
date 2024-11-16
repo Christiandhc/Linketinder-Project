@@ -1,7 +1,6 @@
-package aplicacao
+package controller
 
-import servico.GerenciadorDeRecrutamento
-import java.util.Scanner
+import service.GerenciadorDeRecrutamento
 
 class InterfaceUsuario {
     private final GerenciadorDeRecrutamento sistemaRecrutamento

@@ -1,6 +1,6 @@
-package dao
+package model.dao
 
-import modelo.Candidato
+import model.Candidato
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet

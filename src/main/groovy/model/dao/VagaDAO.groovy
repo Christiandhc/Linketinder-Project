@@ -1,6 +1,6 @@
-package dao
+package model.dao
 
-import modelo.Vaga
+import model.Vaga
 
 interface VagaDAO {
     void inserirVaga(Vaga vaga)

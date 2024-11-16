@@ -1,6 +1,6 @@
-package dao
+package model.dao
 
-import modelo.Empresa
+import model.Empresa
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet

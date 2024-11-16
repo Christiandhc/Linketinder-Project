@@ -1,11 +1,11 @@
-package servico
+package service
 
 import java.time.LocalDate
 import dao.CandidatoDAO
 import dao.EmpresaDAO
-import modelo.Candidato
-import modelo.Empresa
-import modelo.Competencia
+import model.Candidato
+import model.Empresa
+import model.Competencia
 
 class RecrutamentoService {
     private final CandidatoDAO candidatoDAO

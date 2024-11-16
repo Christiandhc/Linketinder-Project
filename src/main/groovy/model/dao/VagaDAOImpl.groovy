@@ -1,6 +1,6 @@
-package dao
+package model.dao
 
-import modelo.Vaga
+import model.Vaga
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet

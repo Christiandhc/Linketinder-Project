@@ -1,9 +1,8 @@
-package servico
+package service
 
-import modelo.Competencia
+import model.Competencia
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Scanner
 
 class EntradaDados {
     static String obterInput(String campo, Scanner scanner) {

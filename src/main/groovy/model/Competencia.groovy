@@ -1,4 +1,4 @@
-package modelo
+package model
 
 class Competencia {
     private int idCompetencia

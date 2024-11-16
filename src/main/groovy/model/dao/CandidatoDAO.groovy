@@ -1,6 +1,6 @@
-package dao
+package model.dao
 
-import modelo.Candidato
+import model.Candidato
 
 interface CandidatoDAO {
     void inserirCandidato(Candidato candidato)
