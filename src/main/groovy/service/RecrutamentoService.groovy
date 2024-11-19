@@ -1,8 +1,8 @@
 package service
 
 import java.time.LocalDate
-import dao.CandidatoDAO
-import dao.EmpresaDAO
+import model.dao.CandidatoDAO
+import model.dao.EmpresaDAO
 import model.Candidato
 import model.Empresa
 import model.Competencia
